@@ -2,311 +2,333 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>For You ❤️</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
 }
 
-body {
-  font-family: Arial, sans-serif;
-
+body{
+  font-family:Arial,sans-serif;
   background:
-    radial-gradient(
-      circle at 50% 45%,
-      #64183d 0%,
-      #26091e 42%,
-      #05030a 100%
-    );
+    radial-gradient(circle at 50% 45%,
+      #781d4b 0%,
+      #320d27 35%,
+      #100511 70%,
+      #030207 100%);
+  color:white;
 }
 
 /* =========================
    SCENE
 ========================= */
 
-.scene {
-  width: 100vw;
-  height: 100vh;
+.scene{
+  width:100vw;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
 
-  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* glow خلفية */
 
-  overflow: hidden;
+.scene::before{
+  content:"";
+  position:absolute;
 
-  perspective: 1000px;
+  width:500px;
+  height:500px;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:#ff176b;
+
+  filter:blur(150px);
+
+  opacity:.12;
+
+  animation:
+    backgroundGlow 4s ease-in-out infinite;
+}
+
+@keyframes backgroundGlow{
+
+  0%,100%{
+    transform:translate(-50%,-50%) scale(.8);
+    opacity:.08;
+  }
+
+  50%{
+    transform:translate(-50%,-50%) scale(1.2);
+    opacity:.2;
+  }
 }
 
 /* =========================
    STARS
 ========================= */
 
-.star {
-  position: absolute;
+.star{
+  position:absolute;
 
-  width: 3px;
-  height: 3px;
+  width:3px;
+  height:3px;
 
-  border-radius: 50%;
-
-  background: white;
+  background:white;
+  border-radius:50%;
 
   box-shadow:
-    0 0 10px white;
+    0 0 8px white,
+    0 0 15px #ff80b0;
 
-  opacity: .6;
-
-  animation: twinkle
-    var(--duration)
-    ease-in-out
-    infinite;
+  animation:
+    twinkle var(--speed) infinite ease-in-out;
 }
 
-@keyframes twinkle {
-  0%,100% {
-    opacity: .15;
-    transform: scale(.5);
+@keyframes twinkle{
+
+  0%,100%{
+    opacity:.1;
+    transform:scale(.5);
   }
 
-  50% {
-    opacity: 1;
-    transform: scale(1.5);
+  50%{
+    opacity:1;
+    transform:scale(1.5);
   }
 }
 
 /* =========================
-   TITLE
+   HINT
 ========================= */
 
-.hint {
-  position: absolute;
+.hint{
+  position:absolute;
 
-  top: 12%;
+  top:10%;
 
-  color: rgba(255,255,255,.8);
+  font-size:14px;
+  letter-spacing:3px;
 
-  font-size: 14px;
-
-  letter-spacing: 2px;
+  color:rgba(255,255,255,.75);
 
   animation:
-    hintMove 2s infinite;
+    hint 2s infinite;
 }
 
-@keyframes hintMove {
-  50% {
-    opacity: .35;
-    transform: translateY(-5px);
+@keyframes hint{
+
+  50%{
+    opacity:.3;
+    transform:translateY(-5px);
   }
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:70px;
+
+  z-index:5;
+}
+
+/* =========================
+   ENVELOPE AREA
+========================= */
+
+.envelopeArea{
+  position:relative;
+
+  width:330px;
+  height:250px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* glow تحت الظرف */
+
+.envelopeGlow{
+  position:absolute;
+
+  width:300px;
+  height:100px;
+
+  bottom:5px;
+
+  border-radius:50%;
+
+  background:#ff176b;
+
+  filter:blur(45px);
+
+  opacity:.3;
+
+  transition:1s;
+}
+
+.envelope.open ~ .envelopeGlow{
+  opacity:.8;
 }
 
 /* =========================
    ENVELOPE
 ========================= */
 
-.envelope {
-  width: min(330px, 80vw);
-  height: 220px;
+.envelope{
+  position:relative;
 
-  position: relative;
+  width:min(330px,80vw);
+  height:220px;
 
-  cursor: pointer;
+  cursor:pointer;
 
-  transform-style: preserve-3d;
+  transform-style:preserve-3d;
 
   transition:
     transform .8s ease;
 
   filter:
     drop-shadow(
-      0 25px 40px
-      rgba(255,0,110,.35)
+      0 25px 35px
+      rgba(255,0,100,.4)
     );
 }
 
-.envelope:hover {
-  transform: translateY(-8px);
+.envelope:hover{
+  transform:translateY(-8px);
 }
 
 /* =========================
    BACK
 ========================= */
 
-.back {
-  position: absolute;
+.back{
+  position:absolute;
+  inset:0;
 
-  inset: 0;
-
-  border-radius: 10px;
+  border-radius:10px;
 
   background:
     linear-gradient(
       145deg,
-      #ff4d83,
-      #a80046
+      #ff5288,
+      #b1004d
     );
 
   box-shadow:
     inset 0 0 30px
-    rgba(255,255,255,.12),
-
-    0 0 35px
-    rgba(255,30,130,.35);
+    rgba(255,255,255,.15);
 }
 
 /* =========================
    LETTER
 ========================= */
 
-.letter {
-  position: absolute;
+.letter{
+  position:absolute;
 
-  width: 86%;
-  height: 190px;
+  width:86%;
+  height:190px;
 
-  left: 7%;
-  bottom: 5px;
+  left:7%;
+  bottom:5px;
 
-  z-index: 2;
+  z-index:2;
 
-  border-radius: 8px;
+  border-radius:8px;
 
   background:
     linear-gradient(
       145deg,
-      #ffffff,
-      #ffe8f0
+      #fff,
+      #ffe6ef
     );
 
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   box-shadow:
-    0 8px 25px
-    rgba(0,0,0,.25);
+    0 10px 30px
+    rgba(0,0,0,.3);
 
   transition:
     transform 1s
     cubic-bezier(.2,.8,.2,1);
 }
 
-/* =========================
-   HEART
-========================= */
+/* قلب الورقة */
 
-.heart {
-  color: #ff176b;
+.letterHeart{
+  font-size:55px;
 
-  font-size: 45px;
+  color:#ff176b;
 
   text-shadow:
-    0 0 10px #ff176b,
-    0 0 25px #ff4d91;
+    0 0 15px #ff176b,
+    0 0 35px #ff4d91;
 
   animation:
     heartbeat 1s infinite;
 }
 
-@keyframes heartbeat {
-  0%,100% {
-    transform: scale(1);
+@keyframes heartbeat{
+
+  50%{
+    transform:scale(1.2);
   }
-
-  50% {
-    transform: scale(1.18);
-  }
-}
-
-/* =========================
-   I LOVE YOU
-========================= */
-
-.love {
-  margin-top: 5px;
-
-  font-size: 27px;
-
-  font-weight: 900;
-
-  letter-spacing: 3px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ff176b,
-      #ff72a5,
-      #d00055
-    );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  color: transparent;
-}
-
-/* =========================
-   LOVE MESSAGE
-========================= */
-
-.message {
-  margin-top: 10px;
-
-  color: #91435f;
-
-  font-size: 12px;
-
-  line-height: 1.7;
-
-  letter-spacing: .4px;
 }
 
 /* =========================
    FLAP
 ========================= */
 
-.flap {
-  position: absolute;
+.flap{
+  position:absolute;
 
-  left: 0;
-  top: 0;
+  top:0;
+  left:0;
 
-  width: 0;
-  height: 0;
+  width:0;
+  height:0;
 
-  border-left:
-    165px solid transparent;
+  border-left:165px solid transparent;
+  border-right:165px solid transparent;
+  border-top:120px solid #ff6491;
 
-  border-right:
-    165px solid transparent;
+  transform-origin:top;
 
-  border-top:
-    120px solid #ff5b8c;
-
-  transform-origin: top;
-
-  z-index: 5;
+  z-index:6;
 
   transition:
     transform 1s
@@ -317,16 +339,16 @@ body {
    FRONT
 ========================= */
 
-.front {
-  position: absolute;
+.front{
+  position:absolute;
 
-  left: 0;
-  bottom: 0;
+  bottom:0;
+  left:0;
 
-  width: 100%;
-  height: 115px;
+  width:100%;
+  height:115px;
 
-  z-index: 4;
+  z-index:4;
 
   border-radius:
     0 0 10px 10px;
@@ -334,8 +356,8 @@ body {
   background:
     linear-gradient(
       145deg,
-      #e92c67,
-      #97003b
+      #ec326b,
+      #98003c
     );
 
   clip-path:
@@ -352,71 +374,63 @@ body {
    SEAL
 ========================= */
 
-.seal {
-  position: absolute;
+.seal{
+  position:absolute;
 
-  left: 50%;
-  top: 50%;
+  z-index:8;
+
+  left:50%;
+  top:50%;
 
   transform:
     translate(-50%,-50%);
 
-  width: 50px;
-  height: 50px;
+  width:52px;
+  height:52px;
 
-  z-index: 7;
+  border-radius:50%;
 
-  display: grid;
-
-  place-items: center;
-
-  border-radius: 50%;
-
-  color: white;
-
-  font-size: 23px;
+  display:grid;
+  place-items:center;
 
   background:
     radial-gradient(
       circle,
-      #ff78a6,
+      #ff8bb1,
       #d80055
     );
 
-  box-shadow:
-    0 0 25px
-    rgba(255,50,140,.9);
+  color:white;
 
-  transition:
-    .5s;
+  font-size:25px;
+
+  box-shadow:
+    0 0 20px #ff176b,
+    0 0 40px rgba(255,20,110,.8);
+
+  transition:.5s;
 }
 
 /* =========================
-   OPEN ANIMATION
+   OPEN
 ========================= */
 
-.envelope.open {
-  transform:
-    translateY(70px);
+.envelope.open{
+  transform:translateY(70px);
 }
 
-.envelope.open
-.flap {
-  transform:
-    rotateX(180deg);
+.envelope.open .flap{
+  transform:rotateX(180deg);
 
-  z-index: 1;
+  z-index:1;
 }
 
-.envelope.open
-.letter {
-  transform:
-    translateY(-125px);
+.envelope.open .letter{
+  transform:translateY(-125px);
 }
 
-.envelope.open
-.seal {
-  opacity: 0;
+.envelope.open .seal{
+  opacity:0;
 
   transform:
     translate(-50%,-50%)
@@ -424,58 +438,197 @@ body {
 }
 
 /* =========================
+   SIDE MESSAGE
+========================= */
+
+.sideMessage{
+  width:260px;
+
+  opacity:0;
+
+  transform:
+    translateX(40px);
+
+  transition:
+    opacity 1.5s ease,
+    transform 1.5s ease;
+
+  pointer-events:none;
+}
+
+.sideMessage.show{
+  opacity:1;
+
+  transform:
+    translateX(0);
+}
+
+.sideHeart{
+  font-size:35px;
+
+  color:#ff4c8b;
+
+  text-shadow:
+    0 0 15px #ff176b,
+    0 0 30px #ff176b;
+
+  margin-bottom:15px;
+
+  animation:
+    heartbeat 1.2s infinite;
+}
+
+.sideTitle{
+  font-size:32px;
+
+  font-weight:900;
+
+  letter-spacing:3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff3f80,
+      #ff9abb,
+      #ff176b
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color:transparent;
+}
+
+.sideText{
+  margin-top:15px;
+
+  color:rgba(255,255,255,.8);
+
+  font-size:14px;
+
+  line-height:1.9;
+}
+
+.line{
+  width:70px;
+  height:2px;
+
+  margin:18px 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff176b,
+      transparent
+    );
+
+  box-shadow:
+    0 0 10px #ff176b;
+}
+
+/* =========================
    PARTICLES
 ========================= */
 
-#particles {
-  position: absolute;
+#particles{
+  position:absolute;
 
-  inset: 0;
+  inset:0;
 
-  pointer-events: none;
+  pointer-events:none;
+
+  z-index:20;
 }
 
-.particle {
-  position: absolute;
+.particle{
+  position:absolute;
 
-  left: 50%;
-  top: 48%;
+  left:50%;
+  top:50%;
 
-  width: 5px;
-  height: 5px;
+  border-radius:50%;
 
-  border-radius: 50%;
-
-  background: white;
+  background:white;
 
   box-shadow:
-    0 0 10px #ff4d91,
-    0 0 20px #ff176b;
+    0 0 8px white,
+    0 0 18px #ff176b;
 
   animation:
-    explode 1.8s
+    particleFly 1.8s
     ease-out forwards;
 }
 
-@keyframes explode {
+@keyframes particleFly{
 
-  from {
+  from{
     transform:
       translate(0,0)
       scale(1);
 
-    opacity: 1;
+    opacity:1;
   }
 
-  to {
+  to{
     transform:
       translate(
-        var(--moveX),
-        var(--moveY)
+        var(--x),
+        var(--y)
       )
       scale(0);
 
-    opacity: 0;
+    opacity:0;
+  }
+}
+
+/* =========================
+   FLOATING HEARTS
+========================= */
+
+.floatingHeart{
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  color:#ff4f8c;
+
+  font-size:
+    var(--size);
+
+  text-shadow:
+    0 0 10px #ff176b,
+    0 0 25px #ff176b;
+
+  animation:
+    heartFly 2.5s ease-out forwards;
+}
+
+@keyframes heartFly{
+
+  from{
+    transform:
+      translate(-50%,-50%)
+      scale(.4)
+      rotate(0);
+
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  to{
+    transform:
+      translate(
+        var(--x),
+        var(--y)
+      )
+      scale(1)
+      rotate(25deg);
+
+    opacity:0;
   }
 }
 
@@ -483,29 +636,65 @@ body {
    MOBILE
 ========================= */
 
-@media(max-width:500px) {
+@media(max-width:700px){
 
-  .envelope {
-    width: 80vw;
-    height: 190px;
+  .main{
+    flex-direction:column;
+
+    gap:25px;
   }
 
-  .flap {
-    border-left-width: 40vw;
-    border-right-width: 40vw;
-    border-top-width: 105px;
+  .envelopeArea{
+    height:220px;
   }
 
-  .letter {
-    height: 165px;
+  .sideMessage{
+    position:absolute;
+
+    top:calc(100% + 15px);
+
+    width:85vw;
+
+    text-align:center;
+
+    transform:
+      translateY(20px);
   }
 
-  .love {
-    font-size: 23px;
+  .sideMessage.show{
+    transform:
+      translateY(0);
   }
 
-  .message {
-    font-size: 11px;
+  .sideTitle{
+    font-size:25px;
+  }
+
+  .sideText{
+    font-size:12px;
+  }
+
+  .line{
+    margin:12px auto;
+  }
+
+  .hint{
+    top:7%;
+  }
+
+  .envelope{
+    width:80vw;
+    height:190px;
+  }
+
+  .flap{
+    border-left-width:40vw;
+    border-right-width:40vw;
+    border-top-width:105px;
+  }
+
+  .letter{
+    height:165px;
   }
 }
 </style>
@@ -516,39 +705,55 @@ body {
 <div class="scene">
 
   <div class="hint">
-    Tap the envelope 💌
+    TAP THE ENVELOPE 💌
   </div>
 
-  <div
-    class="envelope"
-    id="envelope"
-  >
+  <div class="main">
 
-    <div class="back"></div>
+    <div class="envelopeArea">
 
-    <div class="letter">
+      <div class="envelope" id="envelope">
 
-      <div class="heart">
-        ♥
+        <div class="back"></div>
+
+        <div class="letter">
+          <div class="letterHeart">♥</div>
+        </div>
+
+        <div class="flap"></div>
+
+        <div class="front"></div>
+
+        <div class="seal">♥</div>
+
       </div>
 
-      <div class="love">
-        I LOVE YOU
-      </div>
-
-      <p class="message">
-        In a world full of moments,<br>
-        you are my favorite one. ❤️
-      </p>
+      <div class="envelopeGlow"></div>
 
     </div>
 
-    <div class="flap"></div>
 
-    <div class="front"></div>
+    <!-- النص في الجنب -->
 
-    <div class="seal">
-      ♥
+    <div class="sideMessage" id="sideMessage">
+
+      <div class="sideHeart">
+        ♥
+      </div>
+
+      <div class="sideTitle">
+        I LOVE YOU
+      </div>
+
+      <div class="line"></div>
+
+      <div class="sideText">
+        In a world full of moments,<br>
+        you are my favorite one.<br>
+        Every little moment with you<br>
+        feels like something magical. ✨
+      </div>
+
     </div>
 
   </div>
@@ -567,22 +772,22 @@ body {
 const scene =
   document.querySelector(".scene");
 
-for(let i = 0; i < 45; i++){
+for(let i=0;i<55;i++){
 
   const star =
     document.createElement("div");
 
-  star.className = "star";
+  star.className="star";
 
   star.style.left =
-    Math.random() * 100 + "%";
+    Math.random()*100+"%";
 
   star.style.top =
-    Math.random() * 100 + "%";
+    Math.random()*100+"%";
 
   star.style.setProperty(
-    "--duration",
-    (1.5 + Math.random() * 3) + "s"
+    "--speed",
+    (1.5+Math.random()*3)+"s"
   );
 
   scene.appendChild(star);
@@ -596,14 +801,17 @@ for(let i = 0; i < 45; i++){
 const envelope =
   document.getElementById("envelope");
 
+const sideMessage =
+  document.getElementById("sideMessage");
+
 const particles =
   document.getElementById("particles");
 
-let opened = false;
+let opened=false;
 
 
 /* =========================
-   SOUND
+   ROMANTIC SOUND
 ========================= */
 
 function playSound(){
@@ -617,10 +825,16 @@ function playSound(){
   const audio =
     new AudioContext();
 
-  const notes = [
+  /*
+    3 نغمات خفيفة
+    باش يعطي إحساس رومانسي
+  */
+
+  const notes=[
     523.25,
     659.25,
-    783.99
+    783.99,
+    1046.50
   ];
 
   notes.forEach(
@@ -632,15 +846,14 @@ function playSound(){
       const gain =
         audio.createGain();
 
-      oscillator.type =
-        "sine";
+      oscillator.type="sine";
 
-      oscillator.frequency.value =
+      oscillator.frequency.value=
         frequency;
 
-      const start =
-        audio.currentTime +
-        index * .12;
+      const start=
+        audio.currentTime+
+        index*.13;
 
       gain.gain.setValueAtTime(
         0,
@@ -648,13 +861,13 @@ function playSound(){
       );
 
       gain.gain.linearRampToValueAtTime(
-        .07,
-        start + .04
+        .06,
+        start+.04
       );
 
       gain.gain.exponentialRampToValueAtTime(
         .001,
-        start + .8
+        start+.9
       );
 
       oscillator.connect(gain);
@@ -666,9 +879,8 @@ function playSound(){
       oscillator.start(start);
 
       oscillator.stop(
-        start + .8
+        start+.9
       );
-
     }
   );
 }
@@ -680,83 +892,144 @@ function playSound(){
 
 function createParticles(){
 
-  for(let i = 0; i < 70; i++){
+  for(let i=0;i<90;i++){
 
-    const particle =
+    const p =
       document.createElement("div");
 
-    particle.className =
-      "particle";
+    p.className="particle";
 
     const angle =
-      Math.random() *
-      Math.PI * 2;
+      Math.random()*
+      Math.PI*2;
 
     const distance =
-      120 +
-      Math.random() * 280;
+      100+
+      Math.random()*350;
 
-    const x =
-      Math.cos(angle) *
-      distance;
-
-    const y =
-      Math.sin(angle) *
-      distance;
-
-    particle.style.setProperty(
-      "--moveX",
-      x + "px"
+    p.style.setProperty(
+      "--x",
+      Math.cos(angle)*
+      distance+"px"
     );
 
-    particle.style.setProperty(
-      "--moveY",
-      y + "px"
+    p.style.setProperty(
+      "--y",
+      Math.sin(angle)*
+      distance+"px"
     );
 
-    const size =
-      2 + Math.random() * 6;
+    const size=
+      2+
+      Math.random()*6;
 
-    particle.style.width =
-      size + "px";
+    p.style.width=
+      size+"px";
 
-    particle.style.height =
-      size + "px";
+    p.style.height=
+      size+"px";
 
-    particle.style.animationDelay =
-      Math.random() * .35 + "s";
+    p.style.animationDelay=
+      Math.random()*.45+"s";
 
-    particles.appendChild(
-      particle
-    );
+    particles.appendChild(p);
 
     setTimeout(
       ()=>{
-        particle.remove();
+        p.remove();
       },
-      2200
+      2500
     );
   }
 }
 
 
 /* =========================
-   OPEN ENVELOPE
+   HEARTS
+========================= */
+
+function createHearts(){
+
+  for(let i=0;i<18;i++){
+
+    const heart =
+      document.createElement("div");
+
+    heart.className=
+      "floatingHeart";
+
+    heart.innerHTML="♥";
+
+    const angle =
+      Math.random()*
+      Math.PI*2;
+
+    const distance =
+      100+
+      Math.random()*300;
+
+    heart.style.setProperty(
+      "--x",
+      Math.cos(angle)*
+      distance+"px"
+    );
+
+    heart.style.setProperty(
+      "--y",
+      Math.sin(angle)*
+      distance+"px"
+    );
+
+    heart.style.setProperty(
+      "--size",
+      (10+Math.random()*20)+"px"
+    );
+
+    heart.style.animationDelay=
+      Math.random()*.7+"s";
+
+    particles.appendChild(
+      heart
+    );
+
+    setTimeout(
+      ()=>{
+        heart.remove();
+      },
+      3300
+    );
+  }
+}
+
+
+/* =========================
+   OPEN
 ========================= */
 
 function openEnvelope(){
 
   if(opened) return;
 
-  opened = true;
+  opened=true;
 
   envelope.classList.add(
     "open"
   );
 
+  setTimeout(
+    ()=>{
+      sideMessage.classList.add(
+        "show"
+      );
+    },
+    700
+  );
+
   playSound();
 
   createParticles();
+
+  createHearts();
 }
 
 
@@ -777,7 +1050,9 @@ envelope.addEventListener(
 envelope.addEventListener(
   "touchstart",
   openEnvelope,
-  { passive:true }
+  {
+    passive:true
+  }
 );
 
 </script>
